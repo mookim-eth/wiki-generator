@@ -150,6 +150,7 @@ public class Generator{
                                 values.put("" + field.getName(), field.get(content));
                             }
 
+                            values.put("internalname", content.name);
                             values.putAll(generator.vars(content));
                             values.put("stats", MockScene.scrapeStats(content));
 

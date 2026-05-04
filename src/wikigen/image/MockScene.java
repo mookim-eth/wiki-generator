@@ -33,6 +33,9 @@ public class MockScene{
         };
 
         UI.loadColors();
+        UI.billions = Core.bundle.get("unit.billions");
+        UI.millions = Core.bundle.get("unit.millions");
+        UI.thousands = Core.bundle.get("unit.thousands");
 
         Core.atlas = new TextureAtlas(){
             @Override

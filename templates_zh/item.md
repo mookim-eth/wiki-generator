@@ -14,6 +14,6 @@ $stats
 
 ##### 生产来源 <br>$produced
 
-##### 作为配方需求 <br>$crafting
+##### 被以下建筑消耗 <br>$crafting
 
 ##### 用于建造 <br>$used
