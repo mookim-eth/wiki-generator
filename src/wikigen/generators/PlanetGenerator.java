@@ -156,6 +156,9 @@ public class PlanetGenerator extends FileGenerator<Planet>{
             file.writeString(format(template, vars));
         }
 
+        planetDrops.addAll(Vars.content.items().select(item -> item.minfo.mod == null && item.shownPlanets.contains(planet)));
+        planetDrops.addAll(Vars.content.liquids().select(liquid -> liquid.minfo.mod == null && liquid.shownPlanets.contains(planet)));
+
         var pd = planetDrops.toSeq().sort(Structs.comparing(Content::getContentType).thenComparing(c -> c.id));
 
         return ObjectMap.of(
