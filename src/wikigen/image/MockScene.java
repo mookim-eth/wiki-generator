@@ -122,6 +122,9 @@ public class MockScene{
     }
 
     static String link(UnlockableContent content){
+        // Some visible/debug blocks can reference hidden output/status content.
+        // Hidden content pages are not generated, so avoid creating dead links.
+        if(content.isHidden()) return content.localizedName;
         return Generator.get(content.getContentType()).makeLink(content);
     }
 

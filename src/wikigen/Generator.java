@@ -188,6 +188,8 @@ public class Generator{
         }else if(obj == null){
             return "";
         }else if(obj instanceof UnlockableContent c && generators.containsKey(c.getContentType())){
+            // Do not link to hidden content pages; they are not generated.
+            if(c.isHidden()) return c.localizedName;
             return generators.get(c.getContentType()).link(c);
         }
         return obj + "";
