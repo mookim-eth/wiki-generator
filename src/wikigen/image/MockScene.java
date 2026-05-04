@@ -80,7 +80,7 @@ public class MockScene{
             cmap[i] = cmap[i].select(c -> c.minfo.mod == null);
         }
 
-        StringBuilder stats = new StringBuilder("| Property | Value |\n| ----------- | ----------- |\n");
+        StringBuilder stats = new StringBuilder(Config.tr("| Property | Value |", "| 属性 | 值 |") + "\n| ----------- | ----------- |\n");
 
         content.checkStats();
 

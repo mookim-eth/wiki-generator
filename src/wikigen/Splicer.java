@@ -6,7 +6,10 @@ import arc.util.Log;
 
 public class Splicer{
     private static final ObjectMap<String, Fi> targets = new ObjectMap<>();
-    private static final String comment = "[comment]: # (WARNING: Do not modify the text above. It is automatically generated every release.)";
+    private static final String comment = Config.tr(
+    "[comment]: # (WARNING: Do not modify the text above. It is automatically generated every release.)",
+    "[comment]: # (警告：请勿修改此行以上内容。它会在每次发布时自动生成。)"
+    );
 
     /** Begins recursively splicing generated files with base, edited files.*/
     public static void splice(){

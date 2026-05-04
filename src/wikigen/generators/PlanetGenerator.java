@@ -118,7 +118,7 @@ public class PlanetGenerator extends FileGenerator<Planet>{
                         waves.append(Generator.str(type));
 
                         if(boss[type.id]){
-                            waves.append("** (Guardian) **");
+                            waves.append(Config.tr("** (Guardian) **", "**（守护者）**"));
                         }
 
                         waves.append("x").append(counts[type.id]).append(" ");
@@ -134,9 +134,9 @@ public class PlanetGenerator extends FileGenerator<Planet>{
 
             var u = drops.toSeq().sort(Structs.comparing(Content::getContentType).thenComparing(c -> c.id));
 
-            var template = rootDirectory.child("templates").child("sector.md").readString();
+            var template = templatesDirectory.child("sector.md").readString();
             var vars = ObjectMap.<String, Object>of(
-            "localizedName", sector.preset == null ? "Sector " + sector.id : sector.name() + " (" + sector.id + ")",
+            "localizedName", sector.preset == null ? Config.tr("Sector ", "区块 ") + sector.id : sector.name() + " (" + sector.id + ")",
             "resources", links(u),
             "planet", planet.name,
             "id", sector.id,

@@ -19,6 +19,7 @@ import org.reflections.*;
 import wikigen.image.*;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 import static wikigen.Config.*;
 
@@ -30,6 +31,8 @@ public class Generator{
     public static Seq<ParseRecord> parsed = new Seq<>();
 
     public static void main(String[] args){
+        String language = parseLanguage(args);
+        System.setProperty("wikigen.lang", language);
 
         Core.settings = new MockSettings();
         Core.app = new MockApplication();
@@ -39,6 +42,8 @@ public class Generator{
         Core.input = new MockInput();
 
         Core.settings.setAppName("Mindustry");
+        Core.settings.put("locale", language);
+        Locale.setDefault(Config.locale());
 
         //TODO exotic doesn't work anymore.
         /*
@@ -51,7 +56,7 @@ public class Generator{
 
         //generate locale file manually
         if(!Core.files.local("locales").exists()){
-            Core.files.local("locales").writeString("en");
+            Core.files.local("locales").writeString(Config.chinese ? "en\nzh_CN" : "en");
         }
 
         Config.outDirectory.deleteDirectory();
@@ -88,6 +93,19 @@ public class Generator{
         Splicer.splice();
     }
 
+    private static String parseLanguage(String[] args){
+        for(int i = 0; i < args.length; i++){
+            String arg = args[i];
+            if(arg.startsWith("--lang=")){
+                return arg.substring("--lang=".length());
+            }
+            if(arg.equals("--lang") && i + 1 < args.length){
+                return args[i + 1];
+            }
+        }
+        return System.getProperty("wikigen.lang", System.getenv().getOrDefault("WIKIGEN_LANG", "en"));
+    }
+
     /** Generates all the pages, loads the classes. */
     public static void generate(){
         try{
@@ -118,7 +136,7 @@ public class Generator{
 
                 var list = Vars.content.getBy(type).select(c -> c.minfo.mod == null);
                 if(list.any() && list.first() instanceof UnlockableContent){
-                    Fi templatef = rootDirectory.child("templates").child(type.name() + ".md");
+                    Fi templatef = templatesDirectory.child(type.name() + ".md");
                     if(templatef.exists()){
                         Log.info("Generating content of type '@'...", type);
                         var generator = get(type);
@@ -161,7 +179,7 @@ public class Generator{
     /** Stringifies an object for display.*/
     public static String str(Object obj){
         if(obj instanceof Boolean b){
-            return b ? "Yes" : "No";
+            return b ? Config.tr("Yes", "是") : Config.tr("No", "否");
         }else if(obj instanceof Float f){
             return Strings.autoFixed(f, 3);
         }else if(obj instanceof Color c){
